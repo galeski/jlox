@@ -172,7 +172,7 @@ class Scanner {
         } else if (this.isAlpha(c)) {
           this.identifier();
         } else {
-          Lox.error(line, "Unexpected character.");
+          Lox.error(this.#line, "Unexpected character.");
         }
         break;
     }
@@ -329,11 +329,11 @@ class Lox {
     }
   };
 
-  error(line, message) {
-    report(line, "", message);
+  static error(line, message) {
+    this.report(line, "", message);
   }
 
-  report(line, where, message) {
+  static report(line, where, message) {
     console.error("[line" + line + "] Error" + where + ": " + message);
     this.hadError = true;
   }
