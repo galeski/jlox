@@ -225,7 +225,7 @@ class Scanner {
     // we have "
     this.advance();
 
-    const value = this.source.substring(start + 1, current - 1);
+    const value = this.source.substring(this.#start + 1, this.#current - 1);
     this.addToken(TokenType.STRING, value);
   }
 
@@ -245,7 +245,7 @@ class Scanner {
     }
 
     this.addToken(TokenType.NUMBER,
-      parseFloat(this.source.substring(this.start, this.#current)));
+      parseFloat(this.source.substring(this.#start, this.#current)));
   }
 
   identifier() {
