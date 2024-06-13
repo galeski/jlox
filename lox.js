@@ -3,7 +3,7 @@ const path = require('path');
 const readline = require('readline');
 
 // TODO:
-// FIX LEXEME reading
+// [done ?] FIX LEXEME reading
 
 // For now I will probably use an object instead of a set, because it
 // more closely follows javas enums
@@ -76,27 +76,6 @@ const Keywords = Object.freeze({
   'while': 'WHILE'
 });
 
-// const tokenType = new Set([
-//   // Single-character tokens
-//   'LEFT_PAREN', 'RIGHT_PAREN', 'LEFT_BRACE', 'RIGHT_BRACE',
-//   'COMMA', 'DOT', 'MINUS', 'PLUS', 'SEMICOLON', 'SLASH', 'STAR',
-
-//   // One or two character tokens
-//   'BANG', 'BANG_EQUAL',
-//   'EQUAL', 'EQUAL_EQUAL',
-//   'GREATER', 'GREATER_EQUAL',
-//   'LESS', 'LESS_EQUAL',
-
-//   // Literals
-//   'IDENTIFIER', 'STRING', 'NUMBER',
-
-//   // Keywords
-//   'AND', 'CLASS', 'ELSE', 'FALSE', 'FUN', 'FOR', 'IF', 'NIL', 'OR',
-//   'PRINT', 'RETURN', 'SUPER', 'THIS', 'TRUE', 'VAR', 'WHILE',
-
-//   'EOF'
-// ]);
-
 class Token {
   constructor(type, lexeme, literal, line) {
     this.type = type;
@@ -123,7 +102,7 @@ class Scanner {
 
   scanTokens() {
     while (!this.isAtEnd()) {
-      this.start = this.#current;
+      this.#start = this.#current;
       this.scanToken();
     }
 
@@ -208,10 +187,6 @@ class Scanner {
     return this.source.charAt(this.#current++);
   }
 
-  // addToken() {
-  //   addToken(type, null);
-  // }
-
   // and this is for output
   addToken(type, literal = null) {
     const text = this.source.substring(this.#start, this.#current);
@@ -278,9 +253,9 @@ class Scanner {
 
     const text = this.source.substring(this.#start, this.#current);
 
-    let type = Keywords[text] === null
-      ? TokenType.IDENTIFIER
-      : Keywords[text];
+    let type = Keywords[text]
+      ? Keywords[text]
+      : TokenType.IDENTIFIER;
 
     this.addToken(type);
   }
