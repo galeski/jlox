@@ -253,6 +253,7 @@ class Scanner {
 
     const text = this.source.substring(this.#start, this.#current);
 
+    // TODO: see if this is correct
     let type = Keywords[text]
       ? Keywords[text]
       : TokenType.IDENTIFIER;
@@ -330,11 +331,11 @@ class Lox {
   };
 
   static error(line, message) {
-    this.report(line, "", message);
+    this.#report(line, "", message);
   }
 
-  static report(line, where, message) {
-    console.error("[line" + line + "] Error" + where + ": " + message);
+  static #report(line, where, message) {
+    console.error("[line " + line + "] Error" + where + ": " + message);
     this.hadError = true;
   }
 }
