@@ -543,6 +543,8 @@ class Lox {
 
     if (this.hadError) return;
 
+    // TODO: add AST Printer here
+
     for (let token of tokens) {
       console.log(token);
     }
