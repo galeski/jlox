@@ -133,7 +133,7 @@ class Parser {
   #current = 0;
 
   constructor(tokens) {
-    this.tokens = tokens;
+    this.tokens = [...tokens];
   }
 
   expression() {
@@ -201,6 +201,7 @@ class Parser {
   }
 
   unary() {
+    // TODO: Check this bang
     if (this.match(TokenType.BANG, TokenType.MINUS)) {
       let operator = this.previous();
       let right = this.unary();
@@ -221,7 +222,7 @@ class Parser {
 
     if (this.match(TokenType.LEFT_PAREN)) {
       let expr = this.expression();
-      consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.");
+      this.consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.");
       return new ExprGrouping(expr);
     }
 
@@ -230,7 +231,9 @@ class Parser {
 
   match(...types) {
     for (let type of types) {
+      // console.log(type);
       if (this.check(type)) {
+        console.log(type);
         this.advance();
         return true;
       }
@@ -241,12 +244,12 @@ class Parser {
   consume(type, message) {
     if (this.check(type)) return this.advance();
 
-    throw error(this.peek(), message);
+    throw this.error(this.peek(), message);
   }
 
   check(type) {
     if (this.isAtEnd()) return false;
-    return this.peek().type = type; // eeee...
+    return this.peek().type == type; // eeee...
   }
 
   advance() {
@@ -259,11 +262,11 @@ class Parser {
   }
 
   peek() {
-    return this.tokens[current];
+    return this.tokens[this.#current];
   }
 
   previous() {
-    return tokens[current - 1];
+    return this.tokens[this.#current - 1];
   }
 
   error(token, message) {
@@ -297,7 +300,8 @@ class Parser {
 
 // TODO: should this be somehow moved into Parser class???
 class ParseError extends Error {
-  constructor() {
+  constructor(message) {
+    super(message);
     this.name = "ParseError";
   }
 };
@@ -431,7 +435,7 @@ class Scanner {
     }
 
     if (this.isAtEnd()) {
-      Lox.error(line, "Unterminated string.");
+      Lox.error(this.#line, "Unterminated string.");
       return;
     }
 
@@ -569,3 +573,16 @@ class Lox {
 }
 
 const lox = new Lox();
+
+
+// TO ADD TO TEST-FILE
+// const tokens = [
+//   new Token(TokenType.NUMBER, "123", 123, 1),
+//   new Token(TokenType.PLUS, "+", null, 1),
+//   new Token(TokenType.NUMBER, "456", 456, 1),
+//   new Token(TokenType.EOF, "", null, 1)
+// ];
+
+// const parser = new Parser(tokens);
+// const expr = parser.parse();
+// console.log(expr); // Should be an ExprBinary
