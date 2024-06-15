@@ -644,9 +644,9 @@ class Lox {
 
     // TODO: add AST Printer here
 
-    // const ast = new AstPrinter().print(expression);
-    console.log(JSON.stringify(expression));
-    console.log(ast);
+    console.log(new AstPrinter().print(expression));
+    // console.log(JSON.stringify(expression));
+    // console.log(ast);
 
     for (let token of tokens) {
       console.log(token);
@@ -698,3 +698,11 @@ const lox = new Lox();
 // const parser = new Parser(tokens);
 // const expr = parser.parse();
 // console.log(expr); // Should be an ExprBinary
+
+// NOTES
+// Currently we can parse 4 types of expressions
+// Literal expressions (for example, the string “Hallo!”, the number 3, or the boolean true)
+// Unary expressions with a symbol and one operand (for example, the number -3 or the boolean !true)
+// Binary expressions with a symbol and two operands (like 3 <= 3 or "Polly " + " wanna")
+// Grouping expressions that combine the above expressions (like (-1 + 4) < (10 * 2))
+// https://chelseatroy.com/2021/05/01/building-an-interpreter-the-visitor-pattern/
