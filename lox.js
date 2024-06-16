@@ -231,6 +231,10 @@ class Parser {
     this.tokens = [...tokens];
   }
 
+  print() {
+    console.log(JSON.stringify(this.tokens));
+  }
+
   expression() {
     return this.equality();
   }
@@ -639,6 +643,8 @@ class Lox {
 
     const parser = new Parser(tokens);
     const expression = parser.parse();
+
+    parser.print();
 
     if (this.hadError) return;
 
