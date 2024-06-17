@@ -25,10 +25,11 @@ const readline = require('readline');
 class Lox {
   constructor() {
     const args = process.argv.slice(2);
+    console.log(args.length ? `current argument: ${args}` : `running repl`);
     if (args.length > 1) {
       console.log("Usage: jlox [script]");
     } else if (args.length === 1) {
-      this.runFile(args[2]);
+      this.runFile(args[0]);
     } else {
       this.runPrompt();
     }
@@ -39,7 +40,7 @@ class Lox {
   async runFile(filePath) {
     try {
       const data = await fs.readFile(path.resolve(filePath), 'utf8');
-      run(data);
+      this.run(data);
       if (this.hadError) process.exit(1);
     } catch (error) {
       console.error('Error reading file:', error);
