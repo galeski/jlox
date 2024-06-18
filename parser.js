@@ -1,6 +1,9 @@
 const { ExprBinary, ExprGrouping, ExprLiteral, ExprUnary } = require('./expr.js');
 const { Token, Keywords, TokenType } = require('./token.js');
 
+// Basically, the parser is feeded a character
+// then the whole cascade of methods are called, each matching against known
+// token type in a "recursive" fashion.
 class Parser {
   // #tokens;
   #current = 0;
