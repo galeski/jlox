@@ -22,6 +22,10 @@ const readline = require('readline');
 // Grouping expressions that combine the above expressions (like (-1 + 4) < (10 * 2))
 // https://chelseatroy.com/2021/05/01/building-an-interpreter-the-visitor-pattern/
 
+// Currently at:
+// https://craftinginterpreters.com/evaluating-expressions.html#hooking-up-the-interpreter
+// in eval.js
+
 class Lox {
   constructor() {
     const args = process.argv.slice(2);
