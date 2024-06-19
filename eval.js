@@ -112,6 +112,36 @@ class Interpreter extends ExprVisitor {
 
         throw new RuntimeError(`${operator}, Operands must be numbers.`);
     }
+
+    interpret(expression) {
+        try {
+            const value = this.evaluate(expression);
+            console.log(this.stringify(value));
+        } catch (error) {
+            // TODO: fix this?
+            // Lox.runtimeError(error);
+            console.log(error);
+        }
+    }
+
+    stringify(object) {
+        if (object === null) return "nil";
+
+        if (typeof object === "number") {
+            let text = String(object);
+
+            // this is mostly for Javas floating point
+            // but in JS we can use both at the same time, so:
+            // TODO: check if this is correct
+            if (text.endsWith(".0")) {
+                text = text.substring(0, text.length - 2);
+            }
+
+            return text;
+        }
+
+        return String(object);
+    }
 }
 
 module.exports = { Interpreter };

@@ -111,18 +111,25 @@ class Parser {
 
   match(...types) {
     for (let type of types) {
-      // console.log(type);
       if (this.check(type)) {
         console.log(type);
         this.advance();
         return true;
       }
     }
+
     return false;
   }
 
   consume(type, message) {
-    if (this.check(type)) return this.advance();
+    if (this.check(type)) {
+      // this is basically only for the convoluted RIGHT_PAREN logic from
+      // primary() matching LEFT_PAREN, so that it is printed
+      // in addition to what is printed in the match() method
+      // ie. match() is missing RIGHT_PAREN so we fix it below
+      console.log(type);
+      return this.advance();
+    }
 
     throw this.error(this.peek(), message);
   }

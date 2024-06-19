@@ -85,7 +85,7 @@ class AstPrinter extends ExprVisitor {
     builder.push(name);
     for (let expr of exprs) {
       builder.push(" ");
-      builder.push(expr.accept(this));
+      builder.push((expr?.accept(this)) ?? "null");
     }
     builder.push(")");
     return builder.join("");

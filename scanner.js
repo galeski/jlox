@@ -53,7 +53,7 @@ class Scanner {
       // We need to take into account that division "/"
       // differs from "//" ie. comment.
       case '/':
-        if (match('/')) {
+        if (this.match('/')) {
           // A comment goes until the end of the line.
           while (this.peek() != '\n' && !this.isAtEnd()) this.advance();
         } else {

@@ -1,4 +1,6 @@
+const { Interpreter } = require('./eval.js');
 const { AstPrinter } = require('./expr.js');
+const { RuntimeError } = require('./helper.js');
 const { Parser } = require('./parser.js');
 const { Scanner } = require('./scanner.js');
 const { TokenType } = require('./token.js');
@@ -26,6 +28,9 @@ const readline = require('readline');
 // https://craftinginterpreters.com/evaluating-expressions.html#hooking-up-the-interpreter
 // in eval.js
 
+// TODO:
+// Error handling is borked, there is some issue with ASTPrinter probably
+
 class Lox {
   constructor() {
     const args = process.argv.slice(2);
@@ -39,6 +44,8 @@ class Lox {
   }
 
   static hadError = false;
+  static hadRuntimeError = false;
+  static interpreter = new Interpreter();
 
   async runFile(filePath) {
     try {
@@ -86,7 +93,10 @@ class Lox {
 
     if (this.hadError) return;
 
-    console.log(new AstPrinter().print(expression));
+    // console.log(new AstPrinter().print(expression));
+    // in JS we can't access interpreter instance directly
+    // either we need to use this or or go through Class.interpreter
+    Lox.interpreter.interpret(expression);
 
     for (let token of tokens) {
       console.log(token);
@@ -108,6 +118,12 @@ class Lox {
   static #report(line, where, message) {
     console.error("[line " + line + "] Error" + where + ": " + message);
     this.hadError = true;
+  }
+
+  static runtimeError(error) {
+    this.hadRuntimeError = true;
+
+    return new RuntimeError(error);
   }
 }
 
