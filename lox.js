@@ -29,14 +29,13 @@ const readline = require('readline');
 class Lox {
   constructor() {
     const args = process.argv.slice(2);
+
     console.log(args.length ? `current argument: ${args}` : `running repl`);
-    if (args.length > 1) {
-      console.log("Usage: jlox [script]");
-    } else if (args.length === 1) {
-      this.runFile(args[0]);
-    } else {
-      this.runPrompt();
-    }
+
+    if (args.length > 1) console.log("Usage: jlox [script]");
+    if (args.length === 1) this.runFile(args[0]);
+
+    this.runPrompt();
   }
 
   static hadError = false;
