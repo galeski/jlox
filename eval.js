@@ -1,6 +1,14 @@
 const { ExprVisitor } = require("./expr");
 const { RuntimeError } = require("./helper");
+const { StmtVisitor } = require("./stmt");
 const { TokenType } = require("./token");
+
+// TODO:
+// extend Interpreter class to accept Stmt
+// do we need to somehow use mixins?
+// https://craftinginterpreters.com/statements-and-state.html#executing-statements
+// https://stackoverflow.com/questions/29879267/es6-class-multiple-inheritance
+
 
 class Interpreter extends ExprVisitor {
     visitBinaryExpr(expr) {
@@ -32,17 +40,24 @@ class Interpreter extends ExprVisitor {
             // plus is special, because we can concatenate 
             // strings or add numbers
             case TokenType.PLUS:
-                if (typeof left === "number" &&
-                    typeof right === "number") {
+                // add support for concatenation of numbers and strings
+                if ((typeof left === "string" && typeof right === "number") ||
+                    (typeof left === "number" && typeof right === "string")) {
+                    return String(left) + String(right);
+                }
+                if (typeof left === "number" && typeof right === "number") {
                     return Number(left) + Number(right);
                 }
-                if (typeof left === "string" &&
-                    typeof right === "string") {
+                if (typeof left === "string" && typeof right === "string") {
                     return String(left) + String(right);
                 }
 
                 throw new RuntimeError(`${expr.operator}, Operands must be two numbers of two strings.`);
             case TokenType.SLASH:
+                // add support for divide by zero exception for numbers
+                if (typeof left === "number" && right === 0) {
+                    throw new RuntimeError(`${left} / ${right}, Arithmetic Exception: Cannot divide by zero.`);
+                }
                 this.checkNumberOperands(expr.operator, left, right);
                 return Number(left) / Number(right);
             case TokenType.STAR:

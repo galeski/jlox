@@ -1,4 +1,5 @@
 const { ExprBinary, ExprGrouping, ExprLiteral, ExprUnary } = require('./expr.js');
+const { Stmt, Expression, Print, StmtVisitor } = require('./stmt.js');
 const { Token, Keywords, TokenType } = require('./token.js');
 
 // Basically, the parser is feeded a character
@@ -20,12 +21,37 @@ class Parser {
     return this.equality();
   }
 
+  statement() {
+    if (this.match(TokenType.PRINT)) return this.printStatement();
+
+    return this.expressionStatement();
+  }
+
+  printStatement() {
+    const value = this.expression();
+    this.consume(TokenType.SEMICOLON, "Expect ';' after value.");
+    return new Print(value);
+  }
+
+  expressionStatement() {
+    const expr = this.expression();
+    this.consume(TokenType.SEMICOLON, "Expect ';' after value.");
+    return new Expression(expr);
+  }
+
   parse() {
-    try {
-      return this.expression();
-    } catch (error) {
-      if (error.name === "ParseError") return 0;
+    // try {
+    //   return this.expression();
+    // } catch (error) {
+    //   if (error.name === "ParseError") return 0;
+    // }
+    const statements = new Array();
+
+    while (!this.isAtEnd()) {
+      statements.push(this.statement());
     }
+
+    return statements;
   }
 
   equality() {
