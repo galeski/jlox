@@ -30,8 +30,12 @@ class Interpreter extends ExprVisitor {
                 this.checkNumberOperand(expr.operator, right);
                 return Number(left) - Number(right);
             // plus is special, because we can concatenate 
-            // strings or add numbers
+            // strings or add numbers or concatenate string and numbers
             case TokenType.PLUS:
+                if ((typeof left === "string" && typeof right === "number") ||
+                    (typeof left === "number" && typeof right === "string")) {
+                    return String(left) + String(right);
+                }
                 if (typeof left === "number" &&
                     typeof right === "number") {
                     return Number(left) + Number(right);
