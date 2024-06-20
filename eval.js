@@ -8,7 +8,10 @@ const { TokenType } = require("./token");
 // do we need to somehow use mixins?
 // https://craftinginterpreters.com/statements-and-state.html#executing-statements
 // https://stackoverflow.com/questions/29879267/es6-class-multiple-inheritance
-
+// for a static solution we have:
+// class A {}
+// class B extends A {}
+// class C extends B {}
 
 class Interpreter extends ExprVisitor {
     visitBinaryExpr(expr) {
