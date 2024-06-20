@@ -59,7 +59,9 @@ class ExprVisitor {
 
 class AstPrinter extends ExprVisitor {
   print(expr) {
-    return expr.accept(this);
+    return expr !== undefined
+      ? expr.accept(this)
+      : console.log("Received undefined, have you properly terminated statement?");
   }
 
   visitBinaryExpr(expr) {

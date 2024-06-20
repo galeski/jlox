@@ -29,7 +29,9 @@ const readline = require('readline');
 // in eval.js
 
 // TODO:
-// Error handling is borked, there is some issue with ASTPrinter probably
+// Error handling is borked, there is some issue with ASTPrinter probably - using a message print for now
+// TODO:
+// EQUAL_EQUAL == null, Operands must be numbers. for "a" == "a"
 
 class Lox {
   constructor() {
@@ -93,7 +95,7 @@ class Lox {
 
     if (this.hadError) return;
 
-    // console.log(new AstPrinter().print(expression));
+    console.log(new AstPrinter().print(expression));
     // in JS we can't access interpreter instance directly
     // either we need to use this or or go through Class.interpreter
     Lox.interpreter.interpret(expression);

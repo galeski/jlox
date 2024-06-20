@@ -83,7 +83,9 @@ class Scanner {
         } else if (this.isAlpha(c)) {
           this.identifier();
         } else {
-          Lox.error(this.#line, "Unexpected character.");
+          // TODO: fix this
+          // Lox.error(this.#line, "Unexpected character.");
+          console.log(`${this.#line} Unexpected character.`)
         }
         break;
     }
