@@ -89,7 +89,7 @@ class Lox {
     const tokens = scanner.scanTokens();
 
     const parser = new Parser(tokens);
-    const expression = parser.parse();
+    const statements = parser.parse();
 
     parser.print();
 
@@ -98,7 +98,7 @@ class Lox {
     console.log(new AstPrinter().print(expression));
     // in JS we can't access interpreter instance directly
     // either we need to use this or or go through Class.interpreter
-    Lox.interpreter.interpret(expression);
+    Lox.interpreter.interpret(statements);
 
     for (let token of tokens) {
       console.log(token);

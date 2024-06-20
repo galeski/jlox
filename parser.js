@@ -1,8 +1,8 @@
 const { ExprBinary, ExprGrouping, ExprLiteral, ExprUnary } = require('./expr.js');
-const { Stmt, Expression, Print, StmtVisitor } = require('./stmt.js');
+// const { Stmt, Expression, Print, StmtVisitor } = require('./stmt.js');
 const { Token, Keywords, TokenType } = require('./token.js');
 
-// Basically, the parser is feeded a character
+// Basically, the parser is fed a character
 // then the whole cascade of methods are called, each matching against known
 // token type in a "recursive" fashion.
 class Parser {
@@ -183,7 +183,7 @@ class Parser {
   }
 
   error(token, message) {
-    Lox.parseError(token, message);
+    // Lox.parseError(token, message);
     return new ParseError();
   }
 

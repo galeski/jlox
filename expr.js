@@ -49,12 +49,40 @@ class ExprGrouping extends Expr {
   }
 }
 
+// Extend for statements
+class Expression extends Expr {
+  constructor(expr) {
+    super();
+    this.expression = expr;
+  }
+
+  accept(visitor) {
+    return visitor.visitExpressionStmt(this);
+  }
+}
+
+class Print extends Expr {
+  constructor(expr) {
+    super();
+    this.expression = expr;
+  }
+
+  accept(visitor) {
+    return visitor.visitPrintStmt(this);
+  }
+}
+
 // an "interface" for visitor class
 class ExprVisitor {
+  // Expressions
   visitBinaryExpr(expr) { }
   visitUnaryExpr(expr) { }
   visitLiteralExpr(expr) { }
   visitGroupingExpr(expr) { }
+
+  // Statements
+  visitExpressionStmt(expr) { }
+  visitPrintStmt(expr) { }
 }
 
 class AstPrinter extends ExprVisitor {
@@ -101,5 +129,8 @@ module.exports = {
   ExprLiteral,
   ExprUnary,
   ExprVisitor,
-  AstPrinter
+  AstPrinter,
+
+  Expression,
+  Print
 }

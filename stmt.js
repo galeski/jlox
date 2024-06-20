@@ -1,37 +1,37 @@
-class Stmt {
-  accept(visitor) { }
-}
+// class Stmt {
+//   accept(visitor) { }
+// }
 
-class Expression extends Stmt {
-  constructor(expr) {
-    super();
-    this.expression = expr;
-  }
+// class Expression extends Stmt {
+//   constructor(expr) {
+//     super();
+//     this.expression = expr;
+//   }
 
-  accept(visitor) {
-    return visitor.visitExpressionStmt(this);
-  }
-}
+//   accept(visitor) {
+//     return visitor.visitExpressionStmt(this);
+//   }
+// }
 
-class Print extends Stmt {
-  constructor(expr) {
-    super();
-    this.expression = expr;
-  }
+// class Print extends Stmt {
+//   constructor(expr) {
+//     super();
+//     this.expression = expr;
+//   }
 
-  accept(visitor) {
-    return visitor.visitPrintStmt(this);
-  }
-}
+//   accept(visitor) {
+//     return visitor.visitPrintStmt(this);
+//   }
+// }
 
-class StmtVisitor {
-  visitExpressionStmt(expr) { }
-  visitPrintStmt(expr) { }
-}
+// class StmtVisitor {
+//   visitExpressionStmt(expr) { }
+//   visitPrintStmt(expr) { }
+// }
 
-module.exports = {
-  Stmt,
-  Expression,
-  Print,
-  StmtVisitor
-}
+// module.exports = {
+//   Stmt,
+//   Expression,
+//   Print,
+//   StmtVisitor
+// }

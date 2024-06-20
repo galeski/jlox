@@ -92,6 +92,14 @@ class Interpreter extends ExprVisitor {
     visitGroupingExpr(expr) {
         return this.evaluate(expr.expression);
     }
+    visitExpressionStmt(stmt) {
+        this.evaluate(stmt.expression);
+    }
+    visitPrintStmt(stmt) {
+        const value = this.evaluate(stmt.expression);
+        console.log(this.stringify(value));
+        return null;
+    }
 
     evaluate(expr) {
         return expr.accept(this);
@@ -131,15 +139,26 @@ class Interpreter extends ExprVisitor {
         throw new RuntimeError(`${operator}, Operands must be numbers.`);
     }
 
-    interpret(expression) {
+    interpret(statements) {
         try {
-            const value = this.evaluate(expression);
-            console.log(this.stringify(value));
+            for (const statement of statements) {
+                this.execute(statement);
+            }
         } catch (error) {
-            // TODO: fix this?
-            // Lox.runtimeError(error);
-            console.log(error);
+            console.log(`Error ${error}`);
         }
+        // try {
+        //     const value = this.evaluate(expression);
+        //     console.log(this.stringify(value));
+        // } catch (error) {
+        //     // TODO: fix this?
+        //     // Lox.runtimeError(error);
+        //     console.log(error);
+        // }
+    }
+
+    execute(stmt) {
+        stmt.accept(this);
     }
 
     stringify(object) {
